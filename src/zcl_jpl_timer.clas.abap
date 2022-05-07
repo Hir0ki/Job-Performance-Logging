@@ -1,7 +1,8 @@
 CLASS zcl_jpl_timer DEFINITION
   PUBLIC
   FINAL
-  CREATE PUBLIC .
+  CREATE PROTECTED
+  GLOBAL FRIENDS zcl_jpl_factory.
 
   PUBLIC SECTION.
 
@@ -9,7 +10,9 @@ CLASS zcl_jpl_timer DEFINITION
     METHODS constructor
       IMPORTING iv_name       TYPE string
                 io_ref_parent TYPE REF TO zif_jpl_timer OPTIONAL.
+
   PROTECTED SECTION.
+
   PRIVATE SECTION.
 
     DATA: ms_timer_data      TYPE zif_jpl_timer=>tty_jpl_timer_data,
@@ -22,9 +25,6 @@ ENDCLASS.
 
 CLASS zcl_jpl_timer IMPLEMENTATION.
 
-  METHOD constructor.
-
-  ENDMETHOD.
 
   METHOD zif_jpl_timer~start.
     " get timestamp for loop if run that is longer then 10 min.
@@ -60,5 +60,10 @@ CLASS zcl_jpl_timer IMPLEMENTATION.
     rs_timer_data = me->ms_timer_data.
   ENDMETHOD.
 
+
+  METHOD constructor.
+    ms_timer_data-name = iv_name.
+    ms_timer_data-parent_ref = io_ref_parent.
+  ENDMETHOD.
 
 ENDCLASS.
