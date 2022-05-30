@@ -15,9 +15,10 @@ CLASS zcl_jpl_factory
                 io_parent_tiemr TYPE REF TO zif_jpl_timer
       RETURNING VALUE(ro_timer) TYPE REF TO zif_jpl_timer
       RAISING
-        cx_abap_invalid_param_value.
+                cx_abap_invalid_param_value.
     CLASS-METHODS: get_mt_jpl_timer_table RETURNING VALUE(r_result) TYPE ty_jpl_timer_table.
-
+    CLASS-METHODS: create_logger
+      RETURNING VALUE(ro_logger) TYPE REF TO zif_jpl_log.
 
   PROTECTED SECTION.
 
@@ -49,5 +50,9 @@ CLASS zcl_jpl_factory IMPLEMENTATION.
   ENDMETHOD.
 
 
+
+  METHOD create_logger.
+    ro_logger = NEW zcl_jpl_log_write(  ).
+  ENDMETHOD.
 
 ENDCLASS.
